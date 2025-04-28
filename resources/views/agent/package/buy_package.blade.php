@@ -38,7 +38,7 @@
                              </tr>
                            </table>
                            <div class="d-grid">
-                             <button class="mt-4 btn btn-primary">Start free trial</button>
+                             <button class="mt-4 btn btn-primary">Start Now</button>
                            </div>
                          </div>
                        </div>
@@ -63,7 +63,7 @@
                               
                            </table>
                            <div class="d-grid">
-                             <button class="mt-4 btn btn-success">Start free trial</button>
+                            <a href="{{ route('buy.business.plan') }}" class="mt-4 btn btn-success">Start Now  </a> 
                            </div>
                          </div>
                        </div>
@@ -88,7 +88,7 @@
                              
                            </table>
                            <div class="d-grid">
-                             <button class="mt-4 btn btn-primary">Start free trial</button>
+                            <a href="{{ route('buy.professional.plan') }}" class="mt-4 btn btn-primary">Start Now  </a> 
                            </div>
                          </div>
                        </div>
