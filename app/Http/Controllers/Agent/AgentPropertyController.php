@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Session;
 use Intervention\Image\Drivers\Gd\Driver;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\Models\PackagePlan;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 
@@ -52,8 +53,8 @@ class AgentPropertyController extends Controller
 
             return view('agent.property.add_property',compact('propertytype','amenities'));
         }
-        
-       
+
+
 
     }// End Method
 
@@ -499,12 +500,12 @@ class AgentPropertyController extends Controller
 
 
     public function BuyBusinessPlan(){
- 
+
         $id = Auth::user()->id;
         $data = User::find($id);
          return view('agent.package.business_plan',compact('data'));
 
-    }// End Method  
+    }// End Method
 
     public function StoreBusinessPlan(Request $request){
         $id = Auth::user()->id;
@@ -518,7 +519,7 @@ class AgentPropertyController extends Controller
         'package_credits' => '3',
         'invoice' => 'ERS'.mt_rand(10000000,99999999),
         'package_amount' => '20',
-        'created_at' => Carbon::now(), 
+        'created_at' => Carbon::now(),
         ]);
 
         User::where('id',$id)->update([
@@ -532,19 +533,19 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('agent.all.property')->with($notification);  
-    }// End Method 
+        return redirect()->route('agent.all.property')->with($notification);
+    }// End Method
 
 
 
 
     public function BuyProfessionalPlan(){
- 
+
         $id = Auth::user()->id;
         $data = User::find($id);
         return view('agent.package.professional_plan',compact('data'));
 
-    }// End Method  
+    }// End Method
 
 
      public function StoreProfessionalPlan(Request $request){
@@ -560,7 +561,7 @@ class AgentPropertyController extends Controller
         'package_credits' => '10',
         'invoice' => 'ERS'.mt_rand(10000000,99999999),
         'package_amount' => '50',
-        'created_at' => Carbon::now(), 
+        'created_at' => Carbon::now(),
       ]);
 
         User::where('id',$id)->update([
@@ -574,11 +575,32 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('agent.all.property')->with($notification);  
+        return redirect()->route('agent.all.property')->with($notification);
     }// End Method
 
 
+    public function PackageHistory(){
 
+        $id = Auth::user()->id;
+        $packagehistory = PackagePlan::where('user_id',$id)->get();
+        return view('agent.package.package_history',compact('packagehistory'));
+
+    }// End Method
+
+    public function AgentPackageInvoice($id) {
+
+        $packagehistory = PackagePlan::where('id',$id)->first();
+
+        $pdf = Pdf::loadView('agent.package.package_history_invoice',compact('packagehistory'))->setPaper('a4')->setOption([
+            'tempDir' => public_path(), 
+            'chroot' => public_path(),
+        ]);
+        return $pdf->download('invoice.pdf');
+        
+
+    }// End Method
+
+  
 
 
 

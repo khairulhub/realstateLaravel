@@ -62,6 +62,10 @@
                             <a href="{{ route('buy.package') }}" class="nav-link">All Package</a>
                         </li>
                        
+                        <li class="nav-item">
+                            <a href="{{ route('package.history') }}" class="nav-link">Package History</a>
+                        </li>
+                       
                     </ul>
                 </div>
             </li>
