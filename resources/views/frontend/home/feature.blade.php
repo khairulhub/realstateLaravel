@@ -46,7 +46,7 @@
                                 </div>
                                 <ul class="clearfix other-option pull-right">
                                     <li><a href="{{ url('property/details/'.$item->id.'/'.$item->property_slug) }}"><i class="icon-12"></i></a></li>
-                                    <li><a href="{{ url('property/details/'.$item->id.'/'.$item->property_slug) }}"><i class="icon-13"></i></a></li>
+                                    <li><a aria-label="Add To Wishlist" class="action-btn" id="{{ $item->id }}" onclick="addToWishList(this.id)" ><i class="icon-13"></i></a></li>
                                 </ul>
                             </div>
                             <p>{{ $item->short_descp }}</p>

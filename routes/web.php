@@ -10,6 +10,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Backend\PropertiTypeController;
+use App\Http\Controllers\Frontend\WishlistController;
 
 
 Route::get('/', [UserController::class, 'Index'])->name('index');
@@ -24,6 +25,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/logout', [UserController::class, 'UserLogout'])->name('user.logout');
     Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
     Route::post('/user/update/password', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
+
+    // User WishlistAll Route 
+    Route::controller(WishlistController::class)->group(function(){
+    
+        Route::get('/user/wishlist', 'UserWishlist')->name('user.wishlist'); 
+        Route::get('/get-wishlist-property', 'GetWishlistProperty');
+        Route::get('/wishlist-remove/{id}', 'WishlistRemove');  
+
+    });
+
+
+
+
+
+
+
 
 });
 
@@ -201,6 +218,9 @@ Route::middleware(['auth','role:agent'])->group(function(){
  // Frontend Property Details All Route
 
  Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']); 
+
+ // Wishlist Add Route 
+ Route::post('/add-to-wishList/{property_id}', [WishlistController::class, 'AddToWishList']); 
 
 
 
