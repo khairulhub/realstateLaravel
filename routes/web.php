@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\PropertyController;
@@ -82,6 +83,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/inactive/property', 'InactiveProperty')->name('inactive.property');
 
         Route::post('/active/property', 'ActiveProperty')->name('active.property');
+
+        Route::get('/admin/package/history', 'AdminPackageHistory')->name('admin.package.history');
+        Route::get('/admin/package/invoice/{id}', 'AdminPackageInvoice')->name('package.invoice');
 
     });
 
@@ -162,16 +166,16 @@ Route::middleware(['auth','role:agent'])->group(function(){
 
         Route::post('/agent/update/property/facilities', 'AgentUpdatePropertyFacilities')->name('agent.update.property.facilities');
 
-        Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property'); 
- 
-        Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property'); 
+        Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property');
+
+        Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property');
     });
 
 
 
-  // Agent Buy Package Route from admin 
+  // Agent Buy Package Route from admin
     Route::controller(AgentPropertyController::class)->group(function(){
- 
+
         Route::get('/buy/package', 'BuyPackage')->name('buy.package');
         Route::get('/buy/business/plan', 'BuyBusinessPlan')->name('buy.business.plan');
         Route::post('/store/business/plan', 'StoreBusinessPlan')->name('store.business.plan');
@@ -190,6 +194,13 @@ Route::middleware(['auth','role:agent'])->group(function(){
 
 
 }); // End Group Agent Middleware
+
+
+
+
+ // Frontend Property Details All Route
+
+ Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']); 
 
 
 

@@ -17,6 +17,8 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
  use Carbon\Carbon;
+ use App\Models\PackagePlan;
+ use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class PropertyController extends Controller
@@ -209,7 +211,7 @@ class PropertyController extends Controller
 
 
 public function EditProperty($id){
- 
+
     $property = Property::findOrFail($id);
     $facilities = Facility::where('property_id',$id)->get();
 
@@ -225,12 +227,12 @@ public function EditProperty($id){
 
     return view('backend.property.edit_property',compact('property','propertytype','amenities','activeAgent','property_ami','multiImage','facilities'));
 
-}// End Method 
+}// End Method
 
 
 
 public function UpdateProperty(Request $request){
- 
+
     $amen = $request->amenities_id;
     $amenites = implode(",", $amen);
 
@@ -241,7 +243,7 @@ public function UpdateProperty(Request $request){
         'ptype_id' => $request->ptype_id,
         'amenities_id' => $amenites,
         'property_name' => $request->property_name,
-        'property_slug' => strtolower(str_replace(' ', '-', $request->property_name)), 
+        'property_slug' => strtolower(str_replace(' ', '-', $request->property_name)),
         'property_status' => $request->property_status,
 
         'lowest_price' => $request->lowest_price,
@@ -265,8 +267,8 @@ public function UpdateProperty(Request $request){
         'longitude' => $request->longitude,
         'featured' => $request->featured,
         'hot' => $request->hot,
-        'agent_id' => $request->agent_id, 
-        'updated_at' => Carbon::now(), 
+        'agent_id' => $request->agent_id,
+        'updated_at' => Carbon::now(),
 
     ]);
 
@@ -275,9 +277,9 @@ public function UpdateProperty(Request $request){
         'alert-type' => 'success'
     );
 
-    return redirect()->route('all.property')->with($notification); 
+    return redirect()->route('all.property')->with($notification);
 
-}// End Method 
+}// End Method
 
 public function UpdatePropertyThambnail(Request $request)
 {
@@ -406,7 +408,7 @@ public function StoreNewMultiimage(Request $request)
 
 
 public function UpdatePropertyFacilities(Request $request){
- 
+
     $pid = $request->id;
 
     if ($request->facility_name == NULL) {
@@ -414,15 +416,15 @@ public function UpdatePropertyFacilities(Request $request){
     }else{
         Facility::where('property_id',$pid)->delete();
 
-      $facilities = Count($request->facility_name); 
-  
-       for ($i=0; $i < $facilities; $i++) { 
+      $facilities = Count($request->facility_name);
+
+       for ($i=0; $i < $facilities; $i++) {
            $fcount = new Facility();
            $fcount->property_id = $pid;
            $fcount->facility_name = $request->facility_name[$i];
            $fcount->distance = $request->distance[$i];
            $fcount->save();
-       } // end for 
+       } // end for
     }
 
      $notification = array(
@@ -430,9 +432,9 @@ public function UpdatePropertyFacilities(Request $request){
         'alert-type' => 'success'
     );
 
-    return redirect()->back()->with($notification); 
+    return redirect()->back()->with($notification);
 
-}// End Method 
+}// End Method
 
 
 public function DeleteProperty($id)
@@ -484,7 +486,7 @@ public function DeleteProperty($id)
 
 
 public function DetailsProperty($id){
- 
+
     $facilities = Facility::where('property_id',$id)->get();
     $property = Property::findOrFail($id);
 
@@ -499,12 +501,12 @@ public function DetailsProperty($id){
 
     return view('backend.property.details_property',compact('property','propertytype','amenities','activeAgent','property_ami','multiImage','facilities'));
 
-}// End Method 
+}// End Method
 
 
 
 public function InactiveProperty(Request $request){
- 
+
     $pid = $request->id;
     Property::findOrFail($pid)->update([
 
@@ -517,10 +519,10 @@ public function InactiveProperty(Request $request){
         'alert-type' => 'success'
     );
 
-    return redirect()->route('all.property')->with($notification); 
+    return redirect()->route('all.property')->with($notification);
 
 
-}// End Method 
+}// End Method
 
 
   public function ActiveProperty(Request $request){
@@ -537,13 +539,31 @@ public function InactiveProperty(Request $request){
         'alert-type' => 'success'
     );
 
-    return redirect()->route('all.property')->with($notification); 
+    return redirect()->route('all.property')->with($notification);
 
 
-}// End Method 
+}// End Method
+
+public function AdminPackageHistory(){
+
+    $packagehistory = PackagePlan::latest()->get();
+    return view('backend.package.package_history',compact('packagehistory'));
 
 
+   }// End Method
 
+   public function AdminPackageInvoice($id) {
+
+    $packagehistory = PackagePlan::where('id',$id)->first();
+
+    $pdf = Pdf::loadView('backend.package.package_history_invoice',compact('packagehistory'))->setPaper('a4')->setOption([
+        'tempDir' => public_path(),
+        'chroot' => public_path(),
+    ]);
+    return $pdf->download('invoice.pdf');
+
+
+}// End Method
 
 
 

@@ -79,6 +79,14 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item">
+                
+                <a href="{{ route('admin.package.history') }}" class="nav-link">
+                  <i class="link-icon" data-feather="calendar"></i>
+                  
+                  <span class="link-title">Package History</span>
+                </a>
+              </li>
 
             <li class="nav-item nav-category">Agent </li>
             <li class="nav-item">
@@ -103,6 +111,13 @@
                     </ul>
                 </div>
             </li>
+            
+
+
+           
+
+
+
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#advancedUI" role="button"
                     aria-expanded="false" aria-controls="advancedUI">
