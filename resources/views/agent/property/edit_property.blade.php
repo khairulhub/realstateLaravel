@@ -26,13 +26,13 @@
 
      <div class="row">
          <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Property Name </label>
                  <input type="text" name="property_name" class="form-control" value="{{ $property->property_name }}" >
              </div>
          </div><!-- Col -->
          <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Property Status</label>
                 <select name="property_status" class="form-select" id="exampleFormControlSelect1">
                  <option selected="" disabled="">Select Status</option>
@@ -44,7 +44,7 @@
 
 
      <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Lowest Price </label>
                  <input type="text" name="lowest_price" class="form-control" value="{{ $property->lowest_price }}"  >
              </div>
@@ -52,7 +52,7 @@
 
 
              <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Max Price </label>
                  <input type="text" name="max_price" class="form-control" value="{{ $property->max_price }}"  >
              </div>
@@ -109,7 +109,12 @@
          <div class="col-sm-3">
              <div class="mb-3">
                  <label class="form-label">State</label>
-                  <input type="text" name="state"  class="form-control" value="{{ $property->state }}" >
+                <select name="state" class="form-select" id="exampleFormControlSelect1">
+                <option selected="" disabled="">Select State</option>
+               @foreach($pstate as $state)
+                <option value="{{ $state->id }}" {{ $state->id == $property->state ? 'selected' : '' }}>{{ $state->state_name }}</option>
+               @endforeach
+            </select>
              </div>
          </div><!-- Col -->
 
@@ -287,7 +292,7 @@
          <input type="hidden" name="id" value="{{ $property->id }}">
          <input type="hidden" name="old_img" value="{{ $property->property_thambnail }}" >
 
-          <div class="row mb-3">
+          <div class="mb-3 row">
              <div class="form-group col-md-6">
                  <label class="form-label">Main Thambnail </label>
                  <input type="file" name="property_thambnail" class="form-control" onChange="mainThamUrl(this)"  >
@@ -360,7 +365,7 @@
              <input type="file" class="form-control" name="multi_img[{{ $img->id }}]">
              </td>
              <td>
-     <input type="submit" class="btn btn-primary px-4" value="Update Image" >
+     <input type="submit" class="px-4 btn btn-primary" value="Update Image" >
 
      <a href="{{ route('agent.property.multiimg.delete',$img->id) }}" class="btn btn-danger" id="delete">Delete </a>
              </td>
@@ -387,7 +392,7 @@
          </td>
 
          <td>
-             <input type="submit" class="btn btn-info px-4" value="Add Image" >
+             <input type="submit" class="px-4 btn btn-info" value="Add Image" >
          </td>
      </tr>
  </tbody>

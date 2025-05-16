@@ -19,6 +19,9 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
  use Carbon\Carbon;
  use App\Models\PackagePlan;
  use Barryvdh\DomPDF\Facade\Pdf;
+ use App\Models\PropertyMessage;
+use App\Models\State;
+
 
 
 class PropertyController extends Controller
@@ -33,8 +36,9 @@ class PropertyController extends Controller
     public function AddProperty(){
         $propertytype = Propertitype::latest()->get();
         $amenities = Amenities::latest()->get();
+         $pstate = State::latest()->get();
         $activeAgent = User::where('status','active')->where('role','agent')->latest()->get();
-        return view('backend.property.add_property',compact('propertytype','amenities','activeAgent'));
+         return view('backend.property.add_property',compact('propertytype','amenities','activeAgent','pstate'));
 
     }// End Method
 
@@ -218,6 +222,8 @@ public function EditProperty($id){
     $type = $property->amenities_id;
     $property_ami = explode(',', $type);
 
+    $pstate = State::latest()->get();
+
 
     $multiImage = MultiImage::where('property_id',$id)->get();
 
@@ -225,7 +231,7 @@ public function EditProperty($id){
     $amenities = Amenities::latest()->get();
     $activeAgent = User::where('status','active')->where('role','agent')->latest()->get();
 
-    return view('backend.property.edit_property',compact('property','propertytype','amenities','activeAgent','property_ami','multiImage','facilities'));
+    return view('backend.property.edit_property',compact('property','propertytype','amenities','activeAgent','property_ami','multiImage','facilities','pstate'));
 
 }// End Method
 
@@ -565,7 +571,12 @@ public function AdminPackageHistory(){
 
 }// End Method
 
+public function AdminPropertyMessage(){
+ 
+    $usermsg = PropertyMessage::latest()->get();
+    return view('backend.message.all_message',compact('usermsg'));
 
+}// End Method  
 
 
 

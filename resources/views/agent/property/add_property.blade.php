@@ -24,13 +24,13 @@
 
      <div class="row">
          <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Property Name </label>
                  <input type="text" name="property_name" class="form-control"  >
              </div>
          </div><!-- Col -->
          <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Property Status</label>
                 <select name="property_status" class="form-select" id="exampleFormControlSelect1">
                  <option selected="" disabled="">Select Status</option>
@@ -42,7 +42,7 @@
 
 
      <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Lowest Price </label>
                  <input type="text" name="lowest_price" class="form-control"  >
              </div>
@@ -50,7 +50,7 @@
 
 
              <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Max Price </label>
                  <input type="text" name="max_price" class="form-control"  >
              </div>
@@ -58,7 +58,7 @@
 
 
           <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Main Thambnail </label>
                  <input type="file" name="property_thambnail" class="form-control" onChange="mainThamUrl(this)"  >
 
@@ -70,7 +70,7 @@
 
 
           <div class="col-sm-6">
-             <div class="form-group mb-3">
+             <div class="mb-3 form-group">
                  <label class="form-label">Multiple Image </label>
                  <input type="file" name="multi_img[]" class="form-control" id="multiImg" multiple="" >
 
@@ -133,7 +133,12 @@
          <div class="col-sm-3">
              <div class="mb-3">
                  <label class="form-label">State</label>
-                  <input type="text" name="state"  class="form-control" >
+                 <select name="state" class="form-select" id="exampleFormControlSelect1">
+                <option selected="" disabled="">Select State</option>
+               @foreach($pstate as $state)
+                <option value="{{ $state->id }}">{{ $state->state_name }}</option>
+               @endforeach
+            </select>
              </div>
          </div><!-- Col -->
 

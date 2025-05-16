@@ -8,8 +8,10 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\PropertyController;
+use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Backend\PropertiTypeController;
+use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CompareController;
 
@@ -27,18 +29,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password');
     Route::post('/user/update/password', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
 
-    // User WishlistAll Route 
+    // User WishlistAll Route
     Route::controller(WishlistController::class)->group(function(){
-    
-        Route::get('/user/wishlist', 'UserWishlist')->name('user.wishlist'); 
+
+        Route::get('/user/wishlist', 'UserWishlist')->name('user.wishlist');
         Route::get('/get-wishlist-property', 'GetWishlistProperty');
-        Route::get('/wishlist-remove/{id}', 'WishlistRemove');  
+        Route::get('/wishlist-remove/{id}', 'WishlistRemove');
 
     });
 
-    // User Compare All Route 
+    // User Compare All Route
     Route::controller(CompareController::class)->group(function(){
-    
+
         Route::get('/user/compare', 'UserCompare')->name('user.compare');
         Route::get('/get-compare-property', 'GetCompareProperty');
         Route::get('/compare-remove/{id}', 'CompareRemove');
@@ -112,6 +114,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/package/history', 'AdminPackageHistory')->name('admin.package.history');
         Route::get('/admin/package/invoice/{id}', 'AdminPackageInvoice')->name('package.invoice');
 
+        Route::get('/admin/property/message/', 'AdminPropertyMessage')->name('admin.property.message');
+
     });
 
 
@@ -128,6 +132,33 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/changeStatus', 'changeStatus');
 
     });
+
+
+     // State  All Route
+    Route::controller(StateController::class)->group(function(){
+
+     Route::get('/all/state', 'AllState')->name('all.state');
+     Route::get('/add/state', 'AddState')->name('add.state');
+     Route::post('/store/state', 'StoreState')->name('store.state');
+     Route::get('/edit/state/{id}', 'EditState')->name('edit.state');
+     Route::post('/update/state', 'UpdateState')->name('update.state');
+     Route::get('/delete/state/{id}', 'DeleteState')->name('delete.state');
+
+
+});
+
+
+// Testimonials  All Route 
+Route::controller(TestimonialController::class)->group(function(){
+
+     Route::get('/all/testimonials', 'AllTestimonials')->name('all.testimonials'); 
+     Route::get('/add/testimonials', 'AddTestimonials')->name('add.testimonials');
+     Route::post('/store/testimonials', 'StoreTestimonials')->name('store.testimonials');
+     Route::get('/edit/testimonials/{id}', 'EditTestimonials')->name('edit.testimonials');
+     Route::post('/update/testimonials', 'UpdateTestimonials')->name('update.testimonials');
+     Route::get('/delete/testimonials/{id}', 'DeleteTestimonials')->name('delete.testimonials'); 
+
+});
 
 
 
@@ -163,7 +194,7 @@ Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.
 
 
 
-    Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->name('agent.login')->middleware(RedirectIfAuthenticated::class);
+    Route::get('/agent/login', [AgentController::class, 'AgentLogin'])->middleware(RedirectIfAuthenticated::class)->name('agent.login');
 
     Route::post('/agent/register', [AgentController::class, 'AgentRegister'])->name('agent.register');
 
@@ -194,6 +225,14 @@ Route::middleware(['auth','role:agent'])->group(function(){
         Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property');
 
         Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property');
+
+
+
+      Route::get('/agent/property/message/', 'AgentPropertyMessage')->name('agent.property.message');
+      Route::get('/agent/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details');
+
+
+
     });
 
 
@@ -225,15 +264,41 @@ Route::middleware(['auth','role:agent'])->group(function(){
 
  // Frontend Property Details All Route
 
- Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']); 
+ Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']);
 
- // Wishlist Add Route 
- Route::post('/add-to-wishList/{property_id}', [WishlistController::class, 'AddToWishList']); 
+ // Wishlist Add Route
+ Route::post('/add-to-wishList/{property_id}', [WishlistController::class, 'AddToWishList']);
 
 
-   // Compare Add Route 
-   Route::post('/add-to-compare/{property_id}', [CompareController::class, 'AddToCompare']); 
+   // Compare Add Route
+   Route::post('/add-to-compare/{property_id}', [CompareController::class, 'AddToCompare']);
 
+
+   // Send Message from Property Details Page
+   Route::post('/property/message', [IndexController::class, 'PropertyMessage'])->name('property.message');
+   Route::get('/agent/details/{id}', [IndexController::class, 'AgentDetails'])->name('agent.details');
+   // Send Message from Agent Details Page
+   Route::post('/agent/details/message', [IndexController::class, 'AgentDetailsMessage'])->name('agent.details.message');
+ // Get All Rent Property
+   Route::get('/rent/property', [IndexController::class, 'RentProperty'])->name('rent.property');
+ // Get All Rent Property
+   Route::get('/buy/property', [IndexController::class, 'BuyProperty'])->name('buy.property');
+ // Get All  Property data
+   Route::get('/buy/property', [IndexController::class, 'BuyProperty'])->name('buy.property');
+// Get All Property Type Data 
+ Route::get('/property/type/{id}', [IndexController::class, 'PropertyType'])->name('property.type');
+
+
+   // Get State Details Data 
+ Route::get('/state/details/{id}', [IndexController::class, 'StateDetails'])->name('state.details');
+// Home Page Buy Seach Option
+   Route::post('/buy/property/search', [IndexController::class, 'BuyPropertySeach'])->name('buy.property.search');
+
+    // Home Page Rent Seach Option
+   Route::post('/rent/property/search', [IndexController::class, 'RentPropertySeach'])->name('rent.property.search');
+
+   // All Property Seach Option
+   Route::post('/all/property/search', [IndexController::class, 'AllPropertySeach'])->name('all.property.search');
 
 
 

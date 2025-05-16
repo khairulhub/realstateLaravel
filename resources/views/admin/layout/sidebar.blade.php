@@ -60,6 +60,24 @@
                 </div>
             </li>
             <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#state" role="button" aria-expanded="false" aria-controls="emails">
+              <i class="link-icon" data-feather="mail"></i>
+              <span class="link-title">Property State </span>
+              <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+            <div class="collapse" id="state">
+              <ul class="nav sub-menu">
+                <li class="nav-item">
+                  <a href="{{ route('all.state') }}" class="nav-link">All State</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ route('add.state') }}" class="nav-link">Add State</a>
+                </li>
+                
+              </ul>
+            </div>
+          </li>
+            <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#property" role="button"
                     aria-expanded="false" aria-controls="property">
                     <i class="link-icon" data-feather="mail"></i>
@@ -113,9 +131,33 @@
             </li>
             
 
-
+            <li class="nav-item">
+                <a href="{{ route('admin.property.message') }}" class="nav-link">
+                  <i class="link-icon" data-feather="calendar"></i>
+                  <span class="link-title">Property Message </span>
+                </a>
+              </li>
            
 
+              
+              <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#testimonials" role="button" aria-expanded="false" aria-controls="emails">
+              <i class="link-icon" data-feather="mail"></i>
+              <span class="link-title">Testimonials Manage </span>
+              <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+            <div class="collapse" id="testimonials">
+              <ul class="nav sub-menu">
+                <li class="nav-item">
+                  <a href="{{ route('all.testimonials') }}" class="nav-link">All Testimonials</a>
+                </li>
+                <li class="nav-item">
+                 <a href="{{ route('add.testimonials') }}" class="nav-link">Add Testimonials</a>
+                </li>
+                
+              </ul>
+            </div>
+          </li>
 
 
             <li class="nav-item">
@@ -320,11 +362,11 @@
             <i data-feather="settings"></i>
         </a>
         <div class="theme-wrapper">
-            <h6 class="text-muted mb-2">Light Theme:</h6>
+            <h6 class="mb-2 text-muted">Light Theme:</h6>
             <a class="theme-item" href="../demo1/dashboard.html">
                 <img src="../assets/images/screenshots/light.jpg" alt="light theme">
             </a>
-            <h6 class="text-muted mb-2">Dark Theme:</h6>
+            <h6 class="mb-2 text-muted">Dark Theme:</h6>
             <a class="theme-item active" href="../demo2/dashboard.html">
                 <img src="../assets/images/screenshots/dark.jpg" alt="light theme">
             </a>

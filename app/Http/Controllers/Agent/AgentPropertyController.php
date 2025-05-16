@@ -22,6 +22,8 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\Models\PackagePlan;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\PropertyMessage;
+use App\Models\State;
 
 
 
@@ -41,6 +43,7 @@ class AgentPropertyController extends Controller
 
         $propertytype = PropertiType::latest()->get();
         $amenities = Amenities::latest()->get();
+        $pstate = State::latest()->get();
 
         $id = Auth::user()->id;
         $property = User::where('role','agent')->where('id',$id)->first();
@@ -51,7 +54,7 @@ class AgentPropertyController extends Controller
            return redirect()->route('buy.package');
         }else{
 
-            return view('agent.property.add_property',compact('propertytype','amenities'));
+            return view('agent.property.add_property',compact('propertytype','amenities','pstate'));
         }
 
 
@@ -168,11 +171,12 @@ class AgentPropertyController extends Controller
         $property_ami = explode(',', $type);
 
         $multiImage = MultiImage::where('property_id',$id)->get();
+         $pstate = State::latest()->get();
 
         $propertytype = PropertiType::latest()->get();
         $amenities = Amenities::latest()->get();
 
-        return view('agent.property.edit_property',compact('property','propertytype','amenities','property_ami','multiImage','facilities'));
+        return view('agent.property.edit_property',compact('property','propertytype','amenities','property_ami','multiImage','facilities','pstate'));
     }// End Method
 
 
@@ -599,6 +603,27 @@ class AgentPropertyController extends Controller
         
 
     }// End Method
+
+
+    public function AgentPropertyMessage(){
+
+        $id = Auth::user()->id;
+        $usermsg = PropertyMessage::where('agent_id',$id)->get();
+        return view('agent.message.all_message',compact('usermsg'));
+
+    }// End Method  
+
+
+    public function AgentMessageDetails($id){
+
+        $uid = Auth::user()->id;
+        $usermsg = PropertyMessage::where('agent_id',$uid)->get();
+
+        $msgdetails = PropertyMessage::findOrFail($id);
+        return view('agent.message.message_details',compact('usermsg','msgdetails'));
+
+    }// End Method 
+
 
   
 
