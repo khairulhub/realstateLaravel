@@ -1,22 +1,26 @@
+ @php
+   $setting = App\Models\SiteSetting::find(1);
+   @endphp
+
+   
 <header class="main-header">
     <!-- header-top -->
     <div class="header-top">
         <div class="clearfix top-inner">
             <div class="left-column pull-left">
                 <ul class="clearfix info">
-                    <li><i class="far fa-map-marker-alt"></i>Discover St, New York, NY 10012, USA</li>
+                     <li><i class="far fa-map-marker-alt"></i>{{ $setting->company_address }}</li>
                     <li><i class="far fa-clock"></i>Mon - Sat  9.00 - 18.00</li>
-                    <li><i class="far fa-phone"></i><a href="tel:2512353256">+251-235-3256</a></li>
-                </ul>
+                     <li><i class="far fa-phone"></i><a href="tel:2512353256">+{{ $setting->support_phone }}</a></li>
             </div>
             <div class="right-column pull-right">
-                <ul class="clearfix social-links">
-                    <li><a href="index.html"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-pinterest-p"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-google-plus-g"></i></a></li>
-                    <li><a href="index.html"><i class="fab fa-vimeo-v"></i></a></li>
-                </ul>
+                 <ul class="clearfix social-links">
+        <li><a href="{{ $setting->facebook }}"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="{{ $setting->twitter }}"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="index.html"><i class="fab fa-pinterest-p"></i></a></li>
+        <li><a href="index.html"><i class="fab fa-google-plus-g"></i></a></li>
+        <li><a href="index.html"><i class="fab fa-vimeo-v"></i></a></li>
+    </ul>
 
  @auth
 
@@ -43,7 +47,7 @@
 <div class="outer-box">
 <div class="main-box">
 <div class="logo-box">
-<figure class="logo"><a href="{{ route('index') }}"><img src="{{ asset('frontend/assets/images/logo.png') }}" alt=""></a></figure>
+<figure class="logo"><a href="{{ url('/') }}"><img src="{{ asset($setting->logo) }}" alt=""></a></figure>
 </div>
 <div class="clearfix menu-area">
 <!--Mobile Navigation Toggler-->
@@ -65,15 +69,32 @@
         
     </ul>
 </li>
-         <li><a href="{{ url('/') }}"><span>Agent </span></a> </li>       
+         <li><a href="{{ route('agent.login') }}"><span>Agent </span></a> </li>       
              
- <li><a href="{{ url('/') }}"><span>Blog  </span></a> </li>
+ <li><a href="{{ route('blog.list') }}"><span>Blog  </span></a> </li>
 
 
-     <li><a href="contact.html"><span>Contact</span></a></li> 
+     
+     <li class="dropdown me-2"><a href="{{ route('mycart') }}" type="button" class=" position-relative">
+  Cart
+  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartQty">
+    0
+  </span>
+</a>
+
+<ul class="">
+       <div id="miniCart">
+
+        </div>
+        <hr>
+        <p class="text-black font-weight-semi-bold lh-18">Total: $<span class="cart-total" id="cartSubTotal"> </span>  </p>
+        
+        
+    </ul>
+</li> 
     
-     <li> 
-    <a href="{{ route('agent.login') }}" class="btn btn-success"><span>+</span>Add Listing</a> 
+     <li class="ms-3"> 
+    <a href="{{ route('login') }}" class="btn btn-success"><span>+</span>Add Listing</a> 
 </li> 
     </ul>
 </div>
@@ -91,7 +112,7 @@
         <div class="outer-box">
             <div class="main-box">
                 <div class="logo-box">
-                    <figure class="logo"><a href="index.html"><img src="{{ asset('frontend/assets/images/logo.png') }}" alt=""></a></figure>
+                  <figure class="logo"><a href="{{ url('/') }}"><img src="{{ asset($setting->logo) }}" alt=""></a></figure>
                 </div>
                 <div class="clearfix menu-area">
                     <nav class="clearfix main-menu">
